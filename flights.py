@@ -1,24 +1,19 @@
 import collections
 import itertools
 import numpy as np
-cities=4
-arr = np.zeros((5,5))
-arr[1][2] = 10
-arr[2][1] = 10
-arr[3][1] = 24
-arr[1][3] = 24
-arr[2][3] = 2
-arr[3][2] = 2
-arr[2][4] = 15
-arr[4][2] = 15
-arr[4][3] = 7
-arr[3][4] = 7
-final = []
+#----------input area---------------------
+cities , paths = input("").split(" ")
+arr = np.zeros((int(cities)+1,int(cities)+1))
+cities =int(cities)
+for x in range(int(paths)):
+    y,z,p = input("").split(" ")
+    arr[int(y)][int(z)] = int(p)
+    arr[int(z)][int(y)] = int(p)
+    
+original = np.copy(arr)
 
-#search = np.amin(arr[start])
-#nextpos = np.where(arr[start] == search)
-#start = int(nextpos[0])
- 
+
+#-------------------------path price and process area------------ 
 
 class fl:
     def __init__(self,home,dest,fix):
@@ -27,9 +22,7 @@ class fl:
         self.array = fix
         self.des = dest
         self.toreturn = []
-        #self.routes = np.where(fix!=0) 
-       # self.a = collections.Counter(self.routes[0])
-        #self.count = 0
+        
         
 
     def flights(self,home,dest,prev=0):
@@ -107,11 +100,7 @@ class fl:
             if (len(temp)==2):
                 self.to_calc.append(temp)
             elif(check == (len(temp)-2)/2):
-                self.to_calc.append(temp)
-            
-            
-
-
+                self.to_calc.append(temp)  
         #print s.join(allcombs[2][4])
         #print routes
         #print way
@@ -124,24 +113,20 @@ class fl:
                 to_add.append(self.array[int(x[i])][int(x[i+1])])
                 i+=2
             prices.append(np.sum(to_add))
-        print prices
+        #print prices
         return int(np.amin(prices))
 
 num_of_cities = []
-
 for x in range(1,cities+1):
     num_of_cities.append(x)
 
 all_pairs = np.array(list(itertools.combinations(num_of_cities,2)))
 all_cheap_price = []
-ii = 1
- 
 for x in all_pairs:
-    print x[0],x[1]
-    print arr
+    arr = np.copy(original)
     a = fl(int(x[0]),int(x[1]),arr)
     a.flights(int(x[0]),int(x[1]))
     a.flightroutes()
     all_cheap_price.append(a.cheapestprice())
-    ii+=1
 
+print(np.amax(all_cheap_price))
