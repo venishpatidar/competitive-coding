@@ -2,11 +2,15 @@ import collections
 import itertools
 import numpy as np
 #----------input area---------------------
-cities , paths = input("").split(" ")
+citiesandpath = input()
+cities = int(citiesandpath[0])
+
+paths = int(citiesandpath[2])
+
 arr = np.zeros((int(cities)+1,int(cities)+1))
 cities =int(cities)
 for x in range(int(paths)):
-    y,z,p = input("").split(" ")
+    y,z,p = input().split()
     arr[int(y)][int(z)] = int(p)
     arr[int(z)][int(y)] = int(p)
     
@@ -129,4 +133,4 @@ for x in all_pairs:
     a.flightroutes()
     all_cheap_price.append(a.cheapestprice())
 
-print(np.amax(all_cheap_price))
+print (np.amax(all_cheap_price))
